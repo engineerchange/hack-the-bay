@@ -37,10 +37,17 @@ cmc %>% group_by(yr) %>% summarise(distinct_huc=n_distinct(HUC12_),total_points=
 cbp %>% group_by(yr) %>% summarise(distinct_huc=n_distinct(HUC12),total_points=n()) %>% ungroup() -> s2;s2 %>% filter(yr>=2010) %>%
   gt() %>% gt::tab_header(title='CBP, by year')
 
+bth <- cmc %>% mutate(HUC12_=as.character(HUC12_)) %>% group_by(HUC12_,yr) %>% summarise(cmc_ct=n()) %>% ungroup() %>%
+  full_join(cbp %>% mutate(HUC12=as.character(HUC12)) %>% group_by(HUC12,yr) %>% summarise(cbp_ct=n()) %>% ungroup(),by=c("yr","HUC12_"="HUC12")) %>%
+  filter(yr>=2010) %>%
+  group_by(yr) %>% summarise(total_points=sum(cmc_ct,cbp_ct,na.rm=T),distinct_huc=n_distinct(HUC12_)) %>% ungroup()
+
 s1 %>% rename("CMC_distinct_huc"="distinct_huc","CMC_total_points"="total_points") %>% 
   left_join(s2 %>% rename("CBP_distinct_huc"="distinct_huc","CBP_total_points"="total_points"),by=c("yr")) %>% filter(yr>=2010) %>%
+  left_join(bth %>% rename("BOTH_distinct_huc"="distinct_huc","BOTH_total_points"="total_points"),by=c("yr")) %>%
   gt() %>% gt::cols_label("CBP_total_points"="Total Points","CMC_total_points"="Total Points",
-                          "CBP_distinct_huc"="Distinct HUCs","CMC_distinct_huc"="Distinct HUCs") %>%
+                          "CBP_distinct_huc"="Distinct HUCs","CMC_distinct_huc"="Distinct HUCs",
+                          "BOTH_distinct_huc"="Distinct HUCs","BOTH_total_points"="Total Points") %>%
   gt::tab_spanner(
     label = "CMC",
     columns = vars(CMC_distinct_huc,CMC_total_points)
@@ -49,7 +56,11 @@ s1 %>% rename("CMC_distinct_huc"="distinct_huc","CMC_total_points"="total_points
     label = "CBP",
     columns = vars(CBP_distinct_huc,CBP_total_points)
   ) %>%
-  gt::fmt_number(vars(CBP_total_points,CMC_total_points),use_seps = TRUE,decimals=0) %>%
+  gt::tab_spanner(
+    label = "All",
+    columns = vars(BOTH_distinct_huc,BOTH_total_points)
+  ) %>%
+  gt::fmt_number(vars(CBP_total_points,CMC_total_points,BOTH_total_points),use_seps = TRUE,decimals=0) %>%
   gt::tab_header(title='Comparing Water Quality Data Across Databases')
 
 
