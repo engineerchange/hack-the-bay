@@ -53,6 +53,39 @@ s1 %>% rename("CMC_distinct_huc"="distinct_huc","CMC_total_points"="total_points
   gt::tab_header(title='Comparing Water Quality Data Across Databases')
 
 
+# parameter usage by year -------------------------------------------------
+
+s1_par <- cmc %>% group_by(par,yr) %>% summarise(distinct_huc=n_distinct(HUC12_),total_points=n()) %>% ungroup()
+s1_par <- s1_par %>% rename("CMC_distinct_huc"="distinct_huc","CMC_total_points"="total_points") %>% filter(yr>=2010) %>%
+  select(-CMC_total_points) %>%
+  pivot_wider(names_from=par,values_from=CMC_distinct_huc)
+s1_par[is.na(s1_par)]<-0
+s1_par %>% gt() %>% gt::tab_header(title='CMC',subtitle = 'Parameters, by distinct HUCs')
+
+s1_par <- cmc %>% group_by(par,yr) %>% summarise(distinct_huc=n_distinct(HUC12_),total_points=n()) %>% ungroup()
+s1_par <- s1_par %>% rename("CMC_distinct_huc"="distinct_huc","CMC_total_points"="total_points") %>% filter(yr>=2010) %>%
+  select(-CMC_distinct_huc) %>%
+  pivot_wider(names_from=par,values_from=CMC_total_points)
+s1_par[is.na(s1_par)]<-0
+s1_par %>% gt() %>% gt::tab_header(title='CMC',subtitle = 'Parameters, by total points') %>%
+  gt::fmt_number(colnames(s1_par)[2:length(s1_par)],use_seps=TRUE,decimals = 0)
+
+s2_par <- cbp %>% group_by(par,yr) %>% summarise(distinct_huc=n_distinct(HUC12),total_points=n()) %>% ungroup()
+s2_par <- s2_par %>% rename("CBP_distinct_huc"="distinct_huc","CBP_total_points"="total_points") %>% filter(yr>=2010) %>%
+  select(-CBP_total_points) %>%
+  pivot_wider(names_from=par,values_from=CBP_distinct_huc)
+s2_par[is.na(s2_par)]<-0
+s2_par %>% gt() %>% gt::tab_header(title='CBP',subtitle = 'Parameters, by total points') %>%
+  gt::fmt_number(colnames(s2_par)[2:length(s2_par)],use_seps=TRUE,decimals = 0)
+
+s2_par <- cbp %>% group_by(par,yr) %>% summarise(distinct_huc=n_distinct(HUC12),total_points=n()) %>% ungroup()
+s2_par <- s2_par %>% rename("CBP_distinct_huc"="distinct_huc","CBP_total_points"="total_points") %>% filter(yr>=2010) %>%
+  select(-CBP_distinct_huc) %>%
+  pivot_wider(names_from=par,values_from=CBP_total_points)
+s2_par[is.na(s2_par)]<-0
+s2_par %>% gt() %>% gt::tab_header(title='CBP',subtitle = 'Parameters, by total points') %>%
+  gt::fmt_number(colnames(s2_par)[2:length(s2_par)],use_seps=TRUE,decimals = 0)
+
 # strictly cbp data gaps --------------------------------------------------
 
 tfilters <- function(t1){
@@ -86,7 +119,9 @@ ggplot() + theme_bw() + geom_sf(data=huc %>% mutate(HUC12=case_when(
   geom_sf(data=huc %>% mutate(HUC12=case_when(
     substr(HUC12,1,1) == "0" ~ substr(HUC12,2,nchar(HUC12)),
     TRUE ~ HUC12
-  )) %>% filter(HUC12 %in% t_high$HUC12),fill='red')
+  )) %>% filter(HUC12 %in% t_high$HUC12),fill='red') +
+    scale_x_continuous(limits=c(min(min(cmc$Longitude),min(cbp$Longitude)),max(max(cmc$Longitude),max(cbp$Longitude)))) +
+    scale_y_continuous(limits=c(min(min(cmc$Latitude),min(cbp$Latitude)),max(max(cmc$Latitude),max(cbp$Latitude))))
 }
 
 library(patchwork)
@@ -94,7 +129,8 @@ tyr(2016);tfilters(t1);tplot(t1) + ggtitle("2016") -> gg1
 tyr(2017);tfilters(t1);tplot(t1) + ggtitle("2017") -> gg2
 tyr(2018);tfilters(t1);tplot(t1) + ggtitle("2018") -> gg3
 tyr(2019);tfilters(t1);tplot(t1) + ggtitle("2019") -> gg4
-(gg1 + gg2) / (gg3 + gg4) + plot_annotation(title='CBP',caption = "Parameters: Yellow = 5-8, Orange = 8-12, Red = >12") 
+gg1 + gg2 + gg3 + gg4 + plot_annotation(title='CBP',caption = "Parameters: Yellow = 6-8, Orange = 9-12, Red = >12") +
+  plot_layout(nrow = 1)
 
 # strictly cmc data gaps --------------------------------------------------
 
@@ -116,7 +152,8 @@ tyr_cmc(2016);tfilters(t1);tplot(t1) + ggtitle("2016") -> gg1
 tyr_cmc(2017);tfilters(t1);tplot(t1) + ggtitle("2017") -> gg2
 tyr_cmc(2018);tfilters(t1);tplot(t1) + ggtitle("2018") -> gg3
 tyr_cmc(2019);tfilters(t1);tplot(t1) + ggtitle("2019") -> gg4
-(gg1 + gg2) / (gg3 + gg4) + plot_annotation(title='CMC',caption = "Parameters: Light Yellow = <5, Yellow = 5-8, Orange = 8-12, Red = >12") 
+gg1 + gg2 + gg3 + gg4 + plot_annotation(title='CMC',caption = "Parameters: Light Yellow < 5, Yellow = 6-8, Orange = 9-12, Red = >12") +
+  plot_layout(nrow = 1)
 
 
 
