@@ -11,7 +11,6 @@ library(tidyverse)
 
 water <- read_csv("data/Water_FINAL.csv",trim_ws = TRUE,guess_max = 2000000)
 water %>% rename("row"="X1","line"="Unnamed: 0") -> water
-water %>% write_csv("data/Water_FINAL2.csv")
 water %>% write_rds("data/Water_FINAL2.rds")
 
 # download 'wbdhu12_a_us_september2019.gdb' and store in data/
