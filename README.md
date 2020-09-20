@@ -14,11 +14,11 @@
 ## combined_huc_visual.R (initial EDA with HUCs)
 - Sources import.R, which brings in packages and data frames.
 - Visual for the combined huc comparison across both databases.
-- Example:
+- Example:<br/>
 ![Combined HUC Visual](/images/combined_huc_visual.png)
 
 ## huc_visuals.R
 - Sources import.R, which brings in packages and data frames.
 - Visuals for core of the presentation (tables, graphics).
-- Example:
+- Example:<br/>
 ![table graphic](/images/table_graphic.png)
