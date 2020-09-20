@@ -1,5 +1,9 @@
 # hack-the-bay
 
+# Slides
+- [pptx](HackTheBay_Slides.pptx)
+- [pdf](HackTheBay_Slides.pdf)
+
 # How To
 
 ## Initalize the data locally (see initialize.R)
@@ -18,7 +22,3 @@
 - Visuals for core of the presentation (tables, graphics).
 - Example:
 ![table graphic](/images/table_graphic.png)
-
-## Slides
-- [pptx](HackTheBay_Slides.pptx)
-- [pdf](HackTheBay_Slides.pdf)
