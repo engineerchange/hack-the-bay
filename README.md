@@ -1,5 +1,8 @@
 # hack-the-bay
 
+# Overview
+Submission for Challenge 2 of the [Hack The Bay 2020 Hackathon](https://github.com/Hack-the-Bay/hack-the-bay).
+
 # Slides
 - [pptx](HackTheBay_Slides.pptx)
 - [pdf](HackTheBay_Slides.pdf)
