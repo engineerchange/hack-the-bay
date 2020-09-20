@@ -207,8 +207,8 @@ dcdatgrp <- dcdat %>% group_by(yr,par) %>% count() %>% ungroup() %>% mutate(CO=0
 dcdatgrp[is.na(dcdatgrp)]<-0
 
 dcdatgrp %>%
-  gt() %>% gt::tab_header(title='Growth in 4 parameters in DC',subtitle = 'Date range: 2017 - 2020') %>%
-  gt::cols_label("DO"="Dissolved Oxygen","CO"='Connectivity',"PH"="pH","WT"='Water Temperature','yr'='Year')
+  gt() %>% gt::tab_header(title='Growth across parameters in DC',subtitle = 'Date range: 2017 - 2020') %>%
+  gt::cols_label("DO"="Dissolved Oxygen","CO"='Conductivity',"PH"="pH","WT"='Water Temperature','yr'='Year')
 
 dcdat <- cmc %>% filter(state=='DC') %>% filter(yr>=2017) %>%
   filter(Latitude>38,-76.94>Longitude)
