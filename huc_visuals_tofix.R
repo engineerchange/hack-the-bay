@@ -126,7 +126,7 @@ t1 <<- cbp %>% filter(yr==YEAR) %>%
 t1$col <- factor(t1$col,levels=c("1-5","6-8","9-12",">12"),ordered=TRUE)
 }
 
-tyr(2016) %>% write.csv("tyr_2016.csv");tyr(2017) %>% write.csv("tyr_2017.csv");tyr(2018) %>% write.csv("tyr_2018.csv");tyr(2019) %>% write.csv("tyr_2019.csv")
+tyr(2016);t1 %>% write.csv("tyr_2016.csv");tyr(2017);t1 %>% write.csv("tyr_2017.csv");tyr(2018);t1 %>% write.csv("tyr_2018.csv");tyr(2019);t1 %>% write.csv("tyr_2019.csv")
 
 # use tyr_xxxx.csv below
 
