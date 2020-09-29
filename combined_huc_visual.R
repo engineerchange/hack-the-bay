@@ -42,14 +42,15 @@ graphicdata <- function(YEAR){
     dplyr::filter(HUC12 %in% huc_cbp$HUC12_)
 }
 
+cols <- c("Neither"="white","Both"="purple","CBP"="red","CMC"="green")
 graphicplot <- function(){
   ggplot() +
     #geom_sf(data = usa,fill='gray90') +
-    geom_sf(data=huc_null,fill='white') +
-    geom_sf(data=huc_both,fill='purple') +
-    geom_sf(data=huc_cmc,fill='green') +
-    geom_sf(data=huc_cbp,fill='red') +
-    theme_bw() +
+    geom_sf(data=huc_null,aes(fill='Neither')) +
+    geom_sf(data=huc_both,aes(fill='Both')) +
+    geom_sf(data=huc_cmc,aes(fill='CMC')) +
+    geom_sf(data=huc_cbp,aes(fill='CBP')) +
+    theme_bw() + scale_fill_manual(name="Data Collection",values = cols) +
     theme(axis.line = element_blank(),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
@@ -57,34 +58,18 @@ graphicplot <- function(){
           panel.background = element_blank(),
           axis.ticks = element_blank(),
           axis.text = element_blank(),
-          plot.title = element_text(size=22,hjust = 0.5)) 
+          plot.title = element_text(size=22,hjust = 0.5))
 }
 
 graphicdata(2016);graphicplot() + ggtitle("2016") -> gg1
-graphicdata(2017);graphicplot() + ggtitle("2017") -> gg2
+ggraphicdata(2017);graphicplot() + ggtitle("2017") -> gg2
 graphicdata(2018);graphicplot() + ggtitle("2018") -> gg3
 graphicdata(2019);graphicplot() + ggtitle("2019") -> gg4
 
 library(patchwork)
 
 # this visual can take a few mins to run and may need to be re-run to produce correctly
-gg2 + gg3 + gg4 + plot_annotation(caption = "Purple = both; Red = CBP; Green = CMC") +
-  plot_layout(nrow = 1)
-  
-
-# normal plot hucs ---------------------------------------------------------------
-
-
-
-# plot(st_geometry(huc_null),col='white',lwd=2)
-# plot(st_geometry(huc_both_2019),col='purple',lwd=2,add=TRUE)
-# plot(st_geometry(huc_cmc_2019),col='green',lwd=2,add=TRUE)
-# plot(st_geometry(huc_cbp_2019),col='red',lwd=2,add=TRUE)
-
-# more stuff
-
-# library(maps)
-# usa = st_as_sf(map('state', plot = FALSE, fill = TRUE)) %>%
-#   filter(ID %in% c("new york","delaware","new jersey","pennsylvania","maryland","district of columbia","virginia","west virginia"))
+gg2 + gg3 + gg4 + 
+  plot_layout(nrow = 1,guides='collect') & theme(legend.position='bottom')
 
 
