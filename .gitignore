@@ -38,5 +38,5 @@ vignettes/*.pdf
 # remove local data files
 data/*.csv
 data/*.rds
-data/*.zip
+#data/*.zip
 data/*.gdb*
