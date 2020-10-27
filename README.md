@@ -12,7 +12,7 @@ Submission for Challenge 2 of the [Hack The Bay 2020 Hackathon](https://github.c
 ## initialize.R (initalize the data locally) 
 - This is to load data into a data/ folder, since the data is too big to store in GitHub.
 - Download from [Hack the Bay](https://github.com/Hack-the-Bay/hack-the-bay) the 'Water Quality' data and store 'Final_WATER.csv' into a /data directory.
-- Download HUC-12 boundary map from same repo, see "HUC12 Boundary Maps" and store as 'wbdhu12_a_us_september2019.gdb' in a /data directory.
+- Download HUC-12 boundary map from [USGS WBD Data Store](https://nrcs.app.box.com/v/huc/folder/39640323180) and store as 'wbdhu12_a_us.gdb' in a /data directory.
 - Run initialize.R to change 'Final_WATER.csv' to 'Final_WATER2.rds'
 
 ## combined_huc_visual.R (initial EDA with HUCs)
