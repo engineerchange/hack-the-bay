@@ -8,7 +8,7 @@ library(lubridate)
 
 if(!exists("water")){
   water <- read_rds("data/Water_FINAL2.rds") # see initialize.R to create this file
-  huc <- st_read('data/wbdhu12_a_us_september2019.gdb')
+  huc <- st_read('data/wbdhu12_a_us.gdb') # the gdb may be named something different
 }
 
 # utilities
