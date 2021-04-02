@@ -3,6 +3,10 @@
 # Overview
 Submission for Challenge 2 of the [Hack The Bay 2020 Hackathon](https://github.com/Hack-the-Bay/hack-the-bay). One of four [winning teams](https://hack-the-bay.devpost.com/project-gallery).
 
+## In the News
+- [CMC - Hackathon summary](https://www.chesapeakemonitoringcoop.org/hackthebay/) (Oct 2020)
+- [CMC - Hack the Bay Winners Create New Ways to Use CMC Data](https://www.chesapeakemonitoringcoop.org/news/hack-the-bay-winners-create-new-ways-to-use-cmc-data/) (Oct 5, 2020)
+
 # Slides
 - [pptx](HackTheBay_Slides.pptx)
 - [pdf](HackTheBay_Slides.pdf)
